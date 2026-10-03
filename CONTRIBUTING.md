@@ -14,7 +14,11 @@
     test/<简短描述>    测试
     chore/<简短描述>   构建、依赖、杂项
 
-开始前先同步上游，把本地提交重放到上游最新提交之上：
+克隆本仓库后只有 `origin`。若尚未添加过上游仓库，先添加一次：
+
+    git remote add upstream https://github.com/hickercf/dust-path.git
+
+之后每次开始前，同步上游并把本地提交重放到上游最新提交之上：
 
     git fetch upstream
     git rebase upstream/main
