@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#182e29" />
+    <meta
+      name="description"
+      content="尘途问仙，原创 3D 像素修仙 RPG。五门派、一介散修，由选择与机缘写下自己的仙途。"
+    />
+    <title>尘途问仙 · 一念起，万途生</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <div id="game-shell">
+      <canvas
+        id="world"
+        aria-label="3D 像素修仙世界：WASD 移动，J 攻击，K 功法，E 互动"
+        tabindex="0"
+      ></canvas>
+      <div class="vignette" aria-hidden="true"></div>
+      <div class="grain" aria-hidden="true"></div>
+      <header class="topbar">
+        <a class="wordmark" href="#" aria-label="尘途问仙首页" id="home-button"
+          ><span class="brand-seal">道</span
+          ><span>尘途问仙<small>一 念 起 · 万 途 生</small></span></a
+        >
+        <div class="region">
+          <span class="tiny-diamond"></span>
+          <div>
+            <span id="region-name">云岫山境</span
+            ><small id="region-detail">第一章 · 灵井异变</small>
+          </div>
+          <span class="tiny-diamond"></span>
+        </div>
+        <nav class="utility" aria-label="游戏菜单">
+          <span class="prototype-tag">修仙试玩 <b>·</b> 第一章</span
+          ><button
+            class="icon-button"
+            id="audio-button"
+            aria-label="开启声音"
+            title="声音"
+          >
+            <span data-icon="mute"></span></button
+          ><button
+            class="icon-button"
+            id="help-button"
+            aria-label="操作指南"
+            title="操作指南"
+          >
+            <span data-icon="help"></span></button
+          ><button
+            class="icon-button"
+            id="settings-button"
+            aria-label="游戏设置"
+            title="设置"
+          >
+            <span data-icon="settings"></span>
+          </button>
+        </nav>
+      </header>
+      <section class="player-hud in-game hidden" aria-label="角色状态">
+        <div class="portrait-frame">
+          <span data-icon="portrait"></span><b id="level-badge">凡</b>
+        </div>
+        <div class="player-stats">
+          <div class="player-name">无名 <span id="level-text">凡人</span></div>
+          <small id="path-name">尚未入道</small>
+          <div class="meter health">
+            <span id="health-fill"></span
+            ><small id="health-text">100 / 100</small>
+          </div>
+          <div class="meter mana">
+            <span id="mana-fill"></span><small id="mana-text">100 / 100</small>
+          </div>
+          <div class="meter stamina" title="闪避体力">
+            <span id="stamina-fill"></span>
+          </div>
+          <div class="xp-label">
+            <span>修为</span><span id="xp-text">0 / 80 修为</span>
+          </div>
+        </div>
+      </section>
+      <div class="journey-tools in-game hidden">
+        <button id="cultivation-button">修炼 <kbd>C</kbd></button
+        ><button id="sects-button">门派 <kbd>N</kbd></button>
+      </div>
+      <aside class="quest-card in-game hidden" aria-label="当前任务">
+        <div class="quest-heading">
+          <span data-icon="scroll"></span><span>仙途手札</span
+          ><button id="journal-button" aria-label="打开仙途手札">↗</button>
+        </div>
+        <div class="quest-body">
+          <small>主线 · 灵井异变</small>
+          <h2 id="quest-title">一介凡人</h2>
+          <p id="quest-description">村中灵井逆流。先与岑照交谈。</p>
+          <div class="quest-objective">
+            <span class="objective-dot"></span
+            ><span id="quest-objective">与村中岑照交谈</span
+            ><span id="quest-count">0 / 1</span>
+          </div>
+        </div>
+        <div class="quest-footer">
+          <span class="gold-dot"></span
+          ><span id="quest-reward">自由问道 · 五门派与散修</span>
+        </div>
+      </aside>
+      <main class="intro" id="intro">
+        <div class="chapter-label"><span></span> 仙途无定式 · 人间自有路</div>
+        <h1>
+          尘途<span>问仙<span class="title-spark">✧</span></span>
+        </h1>
+        <p class="intro-english">一介凡人，万种仙途。</p>
+        <p class="intro-copy">
+          拜入五宗，或独行山野。<br />谨慎求生，也可迎风问剑。<br />你走过的路，终将成为你的道。
+        </p>
+        <div class="intro-actions">
+          <button class="primary-button" id="start-button">
+            <span data-icon="sword"></span>开启仙途<span class="button-arrow"
+              >→</span
+            ></button
+          ><button class="text-button hidden" id="continue-button">
+            继续修行 <span>↗</span>
+          </button>
+        </div>
+        <div class="intro-meta">
+          <span class="status-light"></span> 五门派 · 自由转道 · 山野机缘
+          <span class="meta-divider">/</span> 首章试玩
+        </div>
+        <p id="legacy-note" class="small-note hidden">
+          旧版冒险存档已保留，本次修仙历程独立保存。
+        </p>
+      </main>
+      <div class="world-label" id="world-label">
+        <span class="label-line"></span
+        ><span>青禾村<small>灵井异变 · 一切由此开始</small></span>
+      </div>
+      <div id="interaction-prompt" class="interaction-prompt hidden">
+        <kbd>E</kbd><span>与岑照交谈</span>
+      </div>
+      <div id="floating-labels" aria-hidden="true"></div>
+      <div id="toasts" role="status" aria-live="polite"></div>
+      <div class="boss-hud hidden" id="boss-hud">
+        <div><span>荒脉守卫</span><small id="boss-text"></small></div>
+        <div class="boss-meter"><span id="boss-health"></span></div>
+        <small>红圈出现时，用空格闪避</small>
+      </div>
+      <footer class="bottom-bar">
+        <span
+          id="keyboard-feedback"
+          class="keyboard-feedback hidden"
+          role="status"
+          aria-live="polite"
+        ></span>
+        <div class="controls-hint">
+          <span class="key-group"
+            ><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd></span
+          ><span>移动</span><i></i><kbd>J</kbd><span>攻击</span><i></i
+          ><kbd>K</kbd><span>功法</span><i></i><kbd>E</kbd><span>互动</span>
+        </div>
+        <div class="save-status">
+          <span class="status-light"></span
+          ><span id="save-label">仙途将从这里开始</span>
+        </div>
+      </footer>
+      <div class="hotbar in-game hidden" aria-label="快捷操作">
+        <button
+          class="hotbar-slot active"
+          id="attack-button"
+          aria-label="挥剑攻击 J"
+        >
+          <span data-icon="sword"></span><kbd>J</kbd><small>攻击</small></button
+        ><button class="hotbar-slot" id="skill-button" aria-label="施展功法 K">
+          <span data-icon="crystal"></span><kbd>K</kbd
+          ><b id="skill-cooldown"></b
+          ><small id="skill-name">待习功法</small></button
+        ><button class="hotbar-slot" id="dodge-button" aria-label="闪避 空格">
+          <span data-icon="dash"></span><kbd>␣</kbd><small>闪避</small></button
+        ><span class="hotbar-divider"></span
+        ><button
+          class="hotbar-slot"
+          id="potion-button"
+          aria-label="使用回春丹 Q"
+        >
+          <span data-icon="potion"></span><kbd>Q</kbd><b id="potion-count">3</b
+          ><small>回春丹</small></button
+        ><button
+          class="hotbar-slot"
+          id="inventory-button"
+          aria-label="打开行囊 I"
+        >
+          <span data-icon="bag"></span><kbd>I</kbd><small>行囊</small>
+        </button>
+      </div>
+      <aside class="minimap-card in-game hidden">
+        <div class="minimap-top">
+          <span><span data-icon="sun"></span> 云岫山境</span
+          ><button id="map-button" aria-label="查看地图">
+            地图 <kbd>M</kbd>
+          </button>
+        </div>
+        <div class="minimap-frame">
+          <canvas
+            id="minimap"
+            width="180"
+            height="144"
+            aria-label="云岫山境地图"
+          ></canvas
+          ><span class="map-north">N</span>
+        </div>
+        <div class="minimap-bottom">
+          <span data-icon="coin"></span><span id="coin-count">25</span
+          ><span class="map-location" id="map-location">青禾村</span>
+        </div>
+        <small id="resource-count">灵草 0 · 兽粮 0</small>
+      </aside>
+      <div class="touch-controls in-game hidden" aria-label="触屏方向控制">
+        <div id="touch-stick"><span></span></div>
+        <button id="touch-interact"><kbd>E</kbd>互动</button>
+      </div>
+      <div class="modal-shade hidden" id="modal-shade">
+        <section
+          class="modal"
+          id="modal"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="modal-title"
+        >
+          <div class="modal-heading">
+            <span class="eyebrow" id="modal-eyebrow">仙途手札</span
+            ><button id="modal-close" aria-label="关闭窗口">×</button>
+          </div>
+          <h2 id="modal-title"></h2>
+          <div id="modal-content"></div>
+        </section>
+      </div>
+      <div id="loading">
+        <span class="loading-leaf">道</span><span>山河渐醒，仙途将启……</span>
+      </div>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
