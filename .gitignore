@@ -4,5 +4,6 @@ dist/
 *.log
 .npm-cache/
 
-# 开发流程设计文档只作本地留档，不进入版本库
+# 本地留档，不进入版本库：设计文档与工作记录
 docs/superpowers/
+docs/records/
