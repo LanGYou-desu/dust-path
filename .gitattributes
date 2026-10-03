@@ -1,2 +1,6 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# Windows 批处理必须以 CRLF 检出：LF 结尾的 .cmd/.bat 在 cmd.exe 下可能解析出错
+*.cmd text eol=crlf
+*.bat text eol=crlf

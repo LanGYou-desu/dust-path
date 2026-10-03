@@ -6,6 +6,10 @@
 
 Node.js 20.19+ 或 22.12+。
 
+Windows 下可直接双击 **启动游戏.cmd**：它会检查依赖、启动服务并自动打开浏览器。首次运行会自动安装依赖。
+
+或在命令行中：
+
 ```powershell
 npm.cmd install --cache .npm-cache
 npm.cmd run dev
