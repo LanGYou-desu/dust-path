@@ -12,10 +12,10 @@ Windows 下可直接双击 **启动游戏.cmd**：它会检查依赖、启动服
 
 ```powershell
 npm.cmd install --cache .npm-cache
-npm.cmd run dev
+npm.cmd start
 ```
 
-打开 http://127.0.0.1:5173/。
+`npm.cmd start` 与双击脚本等价，会启动服务并自动打开浏览器。若不希望自动打开，改用 `npm.cmd run dev`，再手动访问 http://127.0.0.1:5173/。
 
 ```powershell
 npm.cmd test
