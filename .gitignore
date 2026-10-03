@@ -3,3 +3,6 @@ dist/
 .DS_Store
 *.log
 .npm-cache/
+
+# 开发流程设计文档只作本地留档，不进入版本库
+docs/superpowers/
